@@ -4,9 +4,9 @@ set -e  # Exit immediately if a command exits with a non-zero status
 # Variables
 ESPTOOL_REPO="https://github.com/alphafox02/esptool"
 FIRMWARE_OPTIONS=(
-    "WiFi Drone Detection:https://github.com/colonelpanichacks/wifi-rid-to-mesh/raw/refs/heads/main/remoteid-mesh/firmware.bin"
-    "Camera Detect:https://github.com/lukeswitz/esp32-oui-sniffer/raw/refs/heads/Xiao-esp32-c3-serial/build/meshdetect_privacy.bin"
-    "Deepwoods Baseline Scanner:https://github.com/colonelpanichacks/deepwoods_device_detection/raw/refs/heads/Xiao-esp-32-c3/build/esp32c3_device_fingerprint.bin"
+    "WiFi Drone Detection:https://github.com/lukeswitz/mesh-detect/raw/refs/heads/main/dist/drone-detect/dji_firmware.bin"
+    "Camera Detect:https://github.com/lukeswitz/mesh-detect/raw/refs/heads/main/dist/oui-detection/meshdetect_privacy.bin"
+    "Deepwoods Device Detection:https://github.com/lukeswitz/mesh-detect/raw/refs/heads/main/dist/deepwoods/esp32c3_device_fingerprint.bin"
 )
 ESPTOOL_DIR="esptool"
 
