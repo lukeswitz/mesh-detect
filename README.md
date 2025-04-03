@@ -32,18 +32,18 @@ Mesh Detect board can be found on my Tindie Store:
 - Alerts when targeted OUIs are detected.  
 - Flash via **Arduino IDE**.  
 
-  🔒 [Privacy Version](https://github.com/lukeswitz/esp32-oui-sniffer/blob/Xiao-esp32-c3-serial/meshdetect%20_privacy.ino) 
+  🔒 1a. [Privacy Version](https://github.com/lukeswitz/esp32-oui-sniffer/blob/Xiao-esp32-c3-serial/meshdetect%20_privacy.ino) 
   - Preset OUIs for Floc cameras, known snoops and other privacy invaders.
   - Flash via `meshFlasher.sh`
 
 
-### 🌲 Deepwoods Device Detection  
+### 2. 🌲 Deepwoods Device Detection  
 - [Deepwoods Device Detection](https://github.com/colonelpanichacks/deepwoods_device_detection)
 - Scan WiFi and BT to form a baseline and alert to new devices.
 - Detects and alerts on **new** devices.
 - Flash via `meshFlasher.sh`
 
-### 🛸 Drone Remote ID to Meshtastic
+### 3. 🛸 Drone Remote ID to Meshtastic
 *With Mesh-Mapper API 📡*
 - [Drone Remote id to Meshtastic](https://github.com/colonelpanichacks/wifi-rid-to-mesh)
 - Detects **WiFi RID drone signals**.  
