@@ -1,4 +1,4 @@
-  name: Compare OUI Sniffer File Commit Dates (URLs)
+name: Compare OUI Sniffer File Commit Dates (URLs)
  on:
    workflow_dispatch: # Allows manual triggering
    schedule:
