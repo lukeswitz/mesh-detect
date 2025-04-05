@@ -1,4 +1,4 @@
- name: Compare GitHub File Commit Dates (URLs)
+ name: Drone Detection Version Check
  on:
    workflow_dispatch:  # Allows manual triggering
    schedule:
