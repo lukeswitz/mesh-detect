@@ -1,0 +1,111 @@
+ name: Compare Deepwoods File Commit Dates (URLs)
+ on:
+   workflow_dispatch:  # Allows manual triggering
+   schedule:
+     - cron: '0 * * * *'
+
+ jobs:
+   compare_files:
+     runs-on: ubuntu-latest
+     steps:
+       - uses: actions/checkout@v3
+         with:
+           fetch-depth: 1
+
+       - name: Get File 1 Last Commit Date
+         id: file1_date
+         env:
+           FILE_URL_1: "https://github.com/colonelpanichacks/deepwoods_device_detection/blob/Xiao-esp-32-c3/build/esp32c3_device_fingerprint.bin"
+         run: |
+           REPO_INFO=$(echo "$FILE_URL_1" | sed 's/https:\/\/github.com\/\(.*\)\/blob\/\(.*\)\/\(.*\)/\1 \2 \3/g')
+           if [[ -z "$REPO_INFO" ]]; then
+             echo "::set-output name=file1_status::Invalid URL"
+             echo "::set-output name=file1_date::0"
+             exit 1
+           fi
+           REPO=$(echo "$REPO_INFO" | awk '{print $1}')
+           BRANCH=$(echo "$REPO_INFO" | awk '{print $2}')
+           FILE_PATH=$(echo "$REPO_INFO" | awk '{print $3}')
+           API_URL="https://api.github.com/repos/$REPO/commits?path=$FILE_PATH&sha=$BRANCH&per_page=1"
+           RESPONSE=$(curl -s  "$API_URL") #Remove authorization
+
+           if echo "$RESPONSE" | jq -e '.[0].commit.author.date' > /dev/null; then
+             FILE1_COMMIT_DATE=$(echo "$RESPONSE" | jq -r '.[0].commit.author.date' | date -d @- -u +%s)
+             echo "::set-output name=file1_status::OK"
+             echo "::set-output name=file1_date::$FILE1_COMMIT_DATE"
+             echo "File 1 ($FILE_URL_1) Commit Date: $(date -d @$FILE1_COMMIT_DATE)"
+           else
+             echo "::set-output name=file1_status::Not Found"
+             echo "::set-output name=file1_date::0"
+             echo "File 1 ($FILE_URL_1) not found or API error"
+           fi
+
+       - name: Get File 2 Last Commit Date
+         id: file2_date
+         env:
+           FILE_URL_2: "https://github.com/lukeswitz/mesh-detect/blob/main/dist/deepwoods/esp32c3_device_fingerprint.bin"
+         run: |
+           REPO_INFO=$(echo "$FILE_URL_2" | sed 's/https:\/\/github.com\/\(.*\)\/blob\/\(.*\)\/\(.*\)/\1 \2 \3/g')
+           if [[ -z "$REPO_INFO" ]]; then
+             echo "::set-output name=file2_status::Invalid URL"
+             echo "::set-output name=file2_date::0"
+             exit 1
+           fi
+           REPO=$(echo "$REPO_INFO" | awk '{print $1}')
+           BRANCH=$(echo "$REPO_INFO" | awk '{print $2}')
+           FILE_PATH=$(echo "$REPO_INFO" | awk '{print $3}')
+           API_URL="https://api.github.com/repos/$REPO/commits?path=$FILE_PATH&sha=$BRANCH&per_page=1"
+           RESPONSE=$(curl -s "$API_URL") #Remove authorization
+
+           if echo "$RESPONSE" | jq -e '.[0].commit.author.date' > /dev/null; then
+             FILE2_COMMIT_DATE=$(echo "$RESPONSE" | jq -r '.[0].commit.author.date' | date -d @- -u +%s)
+             echo "::set-output name=file2_status::OK"
+             echo "::set-output name=file2_date::$FILE2_COMMIT_DATE"
+             echo "File 2 ($FILE_URL_2) Commit Date: $(date -d @$FILE2_COMMIT_DATE)"
+           else
+             echo "::set-output name=file2_status::Not Found"
+             echo "::set-output name=file2_date::0"
+             echo "File 2 ($FILE_URL_2) not found or API error"
+           fi
+
+       - name: Compare Dates and Set Status
+         id: compare_dates
+         run: |
+           FILE1_STATUS="${{ steps.file1_date.outputs.file1_status }}"
+           FILE2_STATUS="${{ steps.file2_date.outputs.file2_status }}"
+           FILE1_DATE="${{ steps.file1_date.outputs.file1_date }}"
+           FILE2_DATE="${{ steps.file2_date.outputs.file2_date }}"
+
+           if [ "$FILE1_STATUS" == "Not Found" ] || [ "$FILE1_STATUS" == "Invalid URL" ] || [ "$FILE2_STATUS" == "Not Found" ] || [ "$FILE2_STATUS" == "Invalid URL" ]; then
+             if [ "$FILE1_STATUS" == "Not Found" ] || [ "$FILE1_STATUS" == "Invalid URL" ] && [ "$FILE2_STATUS" == "Not Found" ] || [ "$FILE2_STATUS" == "Invalid URL" ]; then
+               STATUS="Files Not Found"
+               COLOR="gray"
+             elif [ "$FILE1_STATUS" == "Not Found" ] || [ "$FILE1_STATUS" == "Invalid URL" ]; then
+               STATUS="File 1 Not Found"
+               COLOR="gray"
+             else
+               STATUS="File 2 Not Found"
+               COLOR="gray"
+             fi
+           else
+             if [ "$FILE1_DATE" -gt "$FILE2_DATE" ]; then
+               STATUS="File 1 Newer"
+               COLOR="green"
+             elif [ "$FILE2_DATE" -gt "$FILE1_DATE" ]; then
+               STATUS="File 2 Newer"
+               COLOR="red"
+             else
+               STATUS="Files Same Age"
+               COLOR="blue"
+             fi
+           fi
+
+           echo "::set-output name=status::$STATUS"
+           echo "::set-output name=color::$COLOR"
+           echo "Comparison Status: $STATUS"
+           echo "Color: $COLOR"
+
+       - name: Output Status and Color
+         run: |
+           echo "Status: ${{ steps.compare_dates.outputs.status }}"
+           echo "Color: ${{ steps.compare_dates.outputs.color }}"
