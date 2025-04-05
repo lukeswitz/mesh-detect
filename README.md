@@ -32,7 +32,7 @@ Mesh Detect board can be found on my Tindie Store:
 - Alerts when targeted OUIs are detected.  
 - Flash via **Arduino IDE**.  
 
-  🔒 1a. [Privacy Version](https://github.com/lukeswitz/esp32-oui-sniffer/blob/Xiao-esp32-c3-serial/meshdetect%20_privacy.ino) 
+  🔒 1a. [Privacy Version](https://github.com/lukeswitz/esp32-oui-sniffer/blob/Xiao-esp32-c3-serial/meshdetect__privacy.ino) 
   - Preset OUIs for Floc cameras, known snoops and other privacy invaders.
   - Flash via `meshFlasher.sh`
 
