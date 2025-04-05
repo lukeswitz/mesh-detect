@@ -1,6 +1,6 @@
- name: Compare OUI Sniffer File Commit Dates (URLs)
+  name: Compare OUI Sniffer File Commit Dates (URLs)
  on:
-   workflow_dispatch:  # Allows manual triggering
+   workflow_dispatch: # Allows manual triggering
    schedule:
      - cron: '0 * * * *'
 
@@ -10,7 +10,7 @@
      steps:
        - uses: actions/checkout@v3
          with:
-           fetch-depth: 1
+           fetch-depth: 0 # Required for git log
 
        - name: Get File 1 Last Commit Date
          id: file1_date
@@ -23,21 +23,17 @@
              echo "::set-output name=file1_date::0"
              exit 1
            fi
-           REPO=$(echo "$REPO_INFO" | awk '{print $1}')
-           BRANCH=$(echo "$REPO_INFO" | awk '{print $2}')
            FILE_PATH=$(echo "$REPO_INFO" | awk '{print $3}')
-           API_URL="https://api.github.com/repos/$REPO/commits?path=$FILE_PATH&sha=$BRANCH&per_page=1"
-           RESPONSE=$(curl -s  "$API_URL") #Remove authorization
-
-           if echo "$RESPONSE" | jq -e '.[0].commit.author.date' > /dev/null; then
-             FILE1_COMMIT_DATE=$(echo "$RESPONSE" | jq -r '.[0].commit.author.date' | date -d @- -u +%s)
-             echo "::set-output name=file1_status::OK"
-             echo "::set-output name=file1_date::$FILE1_COMMIT_DATE"
-             echo "File 1 ($FILE_URL_1) Commit Date: $(date -d @$FILE1_COMMIT_DATE)"
-           else
+           # Get the commit date using git log directly within the checked out repo:
+           FILE1_COMMIT_DATE=$(git log -1 --format="%at" "$FILE_PATH")
+           if [[ -z "$FILE1_COMMIT_DATE" ]]; then
              echo "::set-output name=file1_status::Not Found"
              echo "::set-output name=file1_date::0"
-             echo "File 1 ($FILE_URL_1) not found or API error"
+             echo "File 1 not found or git log error"
+           else
+             echo "::set-output name=file1_status::OK"
+             echo "::set-output name=file1_date::$FILE1_COMMIT_DATE"
+             echo "File 1 Commit Date: $(date -d @$FILE1_COMMIT_DATE)"
            fi
 
        - name: Get File 2 Last Commit Date
@@ -51,21 +47,17 @@
              echo "::set-output name=file2_date::0"
              exit 1
            fi
-           REPO=$(echo "$REPO_INFO" | awk '{print $1}')
-           BRANCH=$(echo "$REPO_INFO" | awk '{print $2}')
            FILE_PATH=$(echo "$REPO_INFO" | awk '{print $3}')
-           API_URL="https://api.github.com/repos/$REPO/commits?path=$FILE_PATH&sha=$BRANCH&per_page=1"
-           RESPONSE=$(curl -s "$API_URL") #Remove authorization
-
-           if echo "$RESPONSE" | jq -e '.[0].commit.author.date' > /dev/null; then
-             FILE2_COMMIT_DATE=$(echo "$RESPONSE" | jq -r '.[0].commit.author.date' | date -d @- -u +%s)
-             echo "::set-output name=file2_status::OK"
-             echo "::set-output name=file2_date::$FILE2_COMMIT_DATE"
-             echo "File 2 ($FILE_URL_2) Commit Date: $(date -d @$FILE2_COMMIT_DATE)"
-           else
+           # Get the commit date using git log directly within the checked out repo:
+           FILE2_COMMIT_DATE=$(git log -1 --format="%at" "$FILE_PATH")
+           if [[ -z "$FILE2_COMMIT_DATE" ]]; then
              echo "::set-output name=file2_status::Not Found"
              echo "::set-output name=file2_date::0"
-             echo "File 2 ($FILE_URL_2) not found or API error"
+             echo "File 2 not found or git log error"
+           else
+             echo "::set-output name=file2_status::OK"
+             echo "::set-output name=file2_date::$FILE2_COMMIT_DATE"
+             echo "File 2 Commit Date: $(date -d @$FILE2_COMMIT_DATE)"
            fi
 
        - name: Compare Dates and Set Status
