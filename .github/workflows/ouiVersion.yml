@@ -1,4 +1,4 @@
-name: Compare OUI Sniffer File Commit Dates (URLs)
+ name: Compare OUI Sniffer File Commit Dates (URLs)
  on:
    workflow_dispatch: # Allows manual triggering
    schedule:
@@ -10,22 +10,28 @@ name: Compare OUI Sniffer File Commit Dates (URLs)
      steps:
        - uses: actions/checkout@v3
          with:
-           fetch-depth: 0 # Required for git log
+           fetch-depth: 0  # Required for git log
 
        - name: Get File 1 Last Commit Date
          id: file1_date
          env:
            FILE_URL_1: "https://github.com/colonelpanichacks/Esp32-oui-sniffer/blob/Xiao-esp32-c3-serial/meshdetect.ino"
+           REPO_NAME: "Esp32-oui-sniffer" #repo name
          run: |
-           REPO_INFO=$(echo "$FILE_URL_1" | sed 's/https:\/\/github.com\/\(.*\)\/blob\/\(.*\)\/\(.*\)/\1 \2 \3/g')
+           REPO_INFO=$(echo "$FILE_URL_1" | sed 's/https:\/\/github.com\/\(.*\)\/\(.*\)\/blob\/\(.*\)\/\(.*\)/\1 \2 \3/g')
            if [[ -z "$REPO_INFO" ]]; then
              echo "::set-output name=file1_status::Invalid URL"
              echo "::set-output name=file1_date::0"
              exit 1
            fi
            FILE_PATH=$(echo "$REPO_INFO" | awk '{print $3}')
+
+           # Navigate to the repository root:
+           cd $REPO_NAME
+
            # Get the commit date using git log directly within the checked out repo:
            FILE1_COMMIT_DATE=$(git log -1 --format="%at" "$FILE_PATH")
+
            if [[ -z "$FILE1_COMMIT_DATE" ]]; then
              echo "::set-output name=file1_status::Not Found"
              echo "::set-output name=file1_date::0"
@@ -35,21 +41,28 @@ name: Compare OUI Sniffer File Commit Dates (URLs)
              echo "::set-output name=file1_date::$FILE1_COMMIT_DATE"
              echo "File 1 Commit Date: $(date -d @$FILE1_COMMIT_DATE)"
            fi
+           cd ..
 
        - name: Get File 2 Last Commit Date
          id: file2_date
          env:
            FILE_URL_2: "https://github.com/lukeswitz/mesh-detect/blob/main/dist/oui-detection/meshdetect_privacy.bin"
+           REPO_NAME: "mesh-detect" #repo name
          run: |
-           REPO_INFO=$(echo "$FILE_URL_2" | sed 's/https:\/\/github.com\/\(.*\)\/blob\/\(.*\)\/\(.*\)/\1 \2 \3/g')
+           REPO_INFO=$(echo "$FILE_URL_2" | sed 's/https:\/\/github.com\/\(.*\)\/\(.*\)\/blob\/\(.*\)\/\(.*\)/\1 \2 \3/g')
            if [[ -z "$REPO_INFO" ]]; then
              echo "::set-output name=file2_status::Invalid URL"
              echo "::set-output name=file2_date::0"
              exit 1
            fi
            FILE_PATH=$(echo "$REPO_INFO" | awk '{print $3}')
+
+           # Navigate to the repository root:
+           cd $REPO_NAME
+
            # Get the commit date using git log directly within the checked out repo:
            FILE2_COMMIT_DATE=$(git log -1 --format="%at" "$FILE_PATH")
+
            if [[ -z "$FILE2_COMMIT_DATE" ]]; then
              echo "::set-output name=file2_status::Not Found"
              echo "::set-output name=file2_date::0"
@@ -59,6 +72,7 @@ name: Compare OUI Sniffer File Commit Dates (URLs)
              echo "::set-output name=file2_date::$FILE2_COMMIT_DATE"
              echo "File 2 Commit Date: $(date -d @$FILE2_COMMIT_DATE)"
            fi
+           cd ..
 
        - name: Compare Dates and Set Status
          id: compare_dates
