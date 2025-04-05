@@ -1,4 +1,7 @@
 # Mesh Detect Flasher  
+[![Drone Detection Version Check](https://github.com/lukeswitz/mesh-detect/actions/workflows/main.yml/badge.svg)](https://github.com/lukeswitz/mesh-detect/actions/workflows/main.yml)
+
+[![Deepwoods Version Check](https://github.com/lukeswitz/mesh-detect/actions/workflows/deepwoodsVersion.yml/badge.svg)](https://github.com/lukeswitz/mesh-detect/actions/workflows/deepwoodsVersion.yml)
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/lukeswitz/T-Halow/refs/heads/master/firmware/ColonelPanicWiFiRID/img/art_purps.svg" alt="T-Halow WiFi RID Image" width="70%" />
