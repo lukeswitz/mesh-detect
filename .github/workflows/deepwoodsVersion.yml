@@ -1,4 +1,4 @@
- name: Compare Deepwoods File Commit Dates (URLs)
+ name: Deepwoods Version Check
  on:
    workflow_dispatch:  # Allows manual triggering
    schedule:
