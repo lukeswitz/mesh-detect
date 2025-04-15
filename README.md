@@ -8,33 +8,22 @@
 
 Easily flash different firmware onto the **Colonel Panic Mesh Detect.** An automatic `esptool.py` flasher, no Arduino IDE required.
 
-Validation: `shasum meshFlasher.sh d8d9686e430d3c4f3e0e2a94363194933d72e3b1`
+`Validation: shasum meshFlasher.sh d8d9686e430d3c4f3e0e2a94363194933d72e3b1`
 
-![649EA86C-098F-4023-A037-B9BBEE91F57A](https://github.com/user-attachments/assets/fe2075fa-6190-497a-a4d6-735a12831484)
+![3CFC9C39-2E01-44BC-B57C-AACCC4AF4078](https://github.com/user-attachments/assets/f4c7080a-046d-4b53-9953-03e6d3a15ff7)
 
-
-## Resources
-*Hackster.io writeup/instructions
-[Mesh-Detect](https://www.hackster.io/colonelpanic/mesh-detect-549cbe)*
-
-Mesh Detect board can be found on my Tindie Store:
-[mesh-detect board](https://www.tindie.com/products/colonel_panic/mesh-detect-2)
-
-<a href="https://www.tindie.com/stores/colonel_panic/?ref=offsite_badges&utm_source=sellers_colonel_panic&utm_medium=badges&utm_campaign=badge_large">
-    <img src="https://d2ss6ovg47m0r5.cloudfront.net/badges/tindie-larges.png" alt="I sell on Tindie" width="200" height="104">
-</a>
 
 ## Firmware Options  
 
 ### 🎥 1. OUI Sniffer  
-- [Official FW](https://github.com/colonelpanichacks/esp32-oui-sniffer/tree/Xiao-esp32-c3-serial)  
+- **[Official OUI FW](https://github.com/colonelpanichacks/esp32-oui-sniffer/tree/Xiao-esp32-c3-serial)**
 - Detects specific **OUI(s)** via Bluetooth scanning.  
 - Alerts when targeted OUIs are detected.  
 - Flash via **Arduino IDE**.  
 
-  🔒 1a. [Privacy Version](https://github.com/lukeswitz/esp32-oui-sniffer/blob/Xiao-esp32-c3-serial/meshdetect__privacy.ino) 
-  - Preset OUIs for Floc cameras, known snoops and other privacy invaders.
-  - Flash via `meshFlasher.sh`
+- 🔒 **[Privacy Sniffer](https://github.com/lukeswitz/esp32-oui-sniffer/blob/Xiao-esp32-c3-serial/meshdetect__privacy.ino)**
+- Preset OUIs for Floc cameras, known snoops and other privacy invaders.
+- Flash via `meshFlasher.sh`
 
 
 ### 2. 🌲 Deepwoods Device Detection  
@@ -47,8 +36,8 @@ Mesh Detect board can be found on my Tindie Store:
 *With Mesh-Mapper API 📡*
 
 - [WiFi Drone Remote id to Meshtastic](https://github.com/colonelpanichacks/wifi-rid-to-mesh)
-
-- **Drone RID [BT Version](https://github.com/colonelpanichacks/BLE-RemoteID-to-mesh/tree/main)**
+- [BT Drone Remote id to Meshtastic](https://github.com/colonelpanichacks/BLE-RemoteID-to-mesh/tree/main)
+- [WiFi & BT 4/5 Drone Remote id to Meshtastic (esp32s3)](https://github.com/lukeswitz/BLE-RemoteID-to-mesh/tree/dualcore)
   
 - Sends drone detection messages with **ID, RSSI, MAC, Operator ID, Location**, and more.
 - Flash via `meshFlasher.sh`
@@ -110,6 +99,16 @@ Ensure both the heltec and your receiver node are on the same channel. Set the p
 - If your esp32 is not being detected or giving any errors, hold the boot button and plug in the device.
 - Make sure you are using a c3 esp32 module. 
 
+## Resources
+*Hackster.io writeup/instructions
+[Mesh-Detect](https://www.hackster.io/colonelpanic/mesh-detect-549cbe)*
+
+Mesh Detect board can be found on my Tindie Store:
+[mesh-detect board](https://www.tindie.com/products/colonel_panic/mesh-detect-2)
+
+<a href="https://www.tindie.com/stores/colonel_panic/?ref=offsite_badges&utm_source=sellers_colonel_panic&utm_medium=badges&utm_campaign=badge_large">
+    <img src="https://d2ss6ovg47m0r5.cloudfront.net/badges/tindie-larges.png" alt="I sell on Tindie" width="200" height="104">
+</a>
 
 
 Credit: Firmware for RID and flasher based on work by cemaxecuter aka alphafox02. Modded with help of Colonel Panic. 
