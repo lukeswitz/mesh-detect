@@ -4,7 +4,6 @@ set -e
 # Variables
 ESPTOOL_REPO="https://github.com/alphafox02/esptool"
 FIRMWARE_OPTIONS=(
-    
     "ESP32C3 - Camera Detector:https://github.com/lukeswitz/mesh-detect/raw/refs/heads/main/dist/oui-detection/meshdetect_privacy.bin"
     "ESP32C3 - Deepwoods Device Baseline Alert:https://github.com/lukeswitz/mesh-detect/raw/refs/heads/main/dist/deepwoods/esp32c3_device_fingerprint.bin"
     "ESP32C3 - WiFi Drone RID:https://github.com/colonelpanichacks/WiFi-RemoteID-to-mesh/raw/refs/heads/main/firmware.bin"
@@ -48,7 +47,7 @@ echo "▀▀  █▪▀▀▀▀▀▀ ▀▀▀▀▀▀▀ ▀▀▀▀▀• 
 echo ""
 echo "==================================================="
 echo "MeshDetect Firmware Flasher"
-echo "Powered by esptool - Thanks alphafox02!"
+echo "Powered by esptool - Thanks @alphafox02!"
 echo "==================================================="
 
 if [ ! -d "$ESPTOOL_DIR" ]; then
