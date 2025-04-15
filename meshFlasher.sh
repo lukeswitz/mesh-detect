@@ -4,10 +4,11 @@ set -e
 # Variables
 ESPTOOL_REPO="https://github.com/alphafox02/esptool"
 FIRMWARE_OPTIONS=(
-    "WiFi Drone Detection:https://github.com/colonelpanichacks/WiFi-RemoteID-to-mesh/raw/refs/heads/main/firmware.bin"
-    "BLE Remote Drone ID:https://github.com/colonelpanichacks/BLE-RemoteID-to-mesh/raw/refs/heads/main/firmware.bin"
-    "Camera Detect:https://github.com/lukeswitz/mesh-detect/raw/refs/heads/main/dist/oui-detection/meshdetect_privacy.bin"
-    "Deepwoods Device Detection:https://github.com/lukeswitz/mesh-detect/raw/refs/heads/main/dist/deepwoods/esp32c3_device_fingerprint.bin"
+    "WiFi Drone RID:https://github.com/colonelpanichacks/WiFi-RemoteID-to-mesh/raw/refs/heads/main/firmware.bin"
+    "ESP32S3 BLE Drone RID:https://github.com/lukeswitz/mesh-detect/raw/refs/heads/main/dist/drone-detect/dji_ble_firmware_s3.bin"
+    "ESP32C6 BLE Drone RID:https://github.com/colonelpanichacks/BLE-RemoteID-to-mesh/raw/refs/heads/main/firmware.bin"
+    "Camera Detector:https://github.com/lukeswitz/mesh-detect/raw/refs/heads/main/dist/oui-detection/meshdetect_privacy.bin"
+    "Deepwoods Device Baseline Alert:https://github.com/lukeswitz/mesh-detect/raw/refs/heads/main/dist/deepwoods/esp32c3_device_fingerprint.bin"
 )
 ESPTOOL_DIR="esptool"
 
@@ -138,7 +139,7 @@ if ! command -v python3 &> /dev/null; then
 fi
 
 "$PYTHON_CMD" esptool.py \
-    --chip esp32c3 \
+    --chip auto \
     --port "$ESP32_PORT" \
     --baud "$UPLOAD_SPEED" \
     --before default_reset \
@@ -146,7 +147,7 @@ fi
     write_flash -z \
     --flash_mode dio \
     --flash_freq 80m \
-    --flash_size 4MB \
+    --flash_size detect \
     0x10000 "$FIRMWARE_FILE"
 
 echo ""
