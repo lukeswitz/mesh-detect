@@ -1,10 +1,11 @@
 #!/bin/bash
-set -e  # Exit immediately if a command exits with a non-zero status
+set -e
 
 # Variables
 ESPTOOL_REPO="https://github.com/alphafox02/esptool"
 FIRMWARE_OPTIONS=(
-    "WiFi Drone Detection:https://github.com/lukeswitz/mesh-detect/raw/refs/heads/main/dist/drone-detect/dji_firmware.bin"
+    "WiFi Drone Detection:https://github.com/colonelpanichacks/WiFi-RemoteID-to-mesh/raw/refs/heads/main/firmware.bin"
+    "BLE Remote Drone ID (:https://github.com/colonelpanichacks/BLE-RemoteID-to-mesh/raw/refs/heads/main/firmware.bin"
     "Camera Detect:https://github.com/lukeswitz/mesh-detect/raw/refs/heads/main/dist/oui-detection/meshdetect_privacy.bin"
     "Deepwoods Device Detection:https://github.com/lukeswitz/mesh-detect/raw/refs/heads/main/dist/deepwoods/esp32c3_device_fingerprint.bin"
 )
@@ -18,31 +19,22 @@ ESP32_PORT=""
 # Function to find serial devices
 find_serial_devices() {
     local devices=""
-    
-    # Linux devices
+
     if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-        # Try physical devices first
         devices=$(ls /dev/ttyUSB* /dev/ttyACM* 2>/dev/null || true)
-        
-        # If no devices found, try by-id paths
         if [ -z "$devices" ] && [ -d "/dev/serial/by-id" ]; then
             devices=$(ls /dev/serial/by-id/* 2>/dev/null || true)
         fi
-        
-        # If still no devices, try by-path
         if [ -z "$devices" ] && [ -d "/dev/serial/by-path" ]; then
             devices=$(ls /dev/serial/by-path/* 2>/dev/null || true)
         fi
-    # macOS devices
     elif [[ "$OSTYPE" == "darwin"* ]]; then
-        # On macOS, prefer /dev/cu.* over /dev/tty.* as they work better for flashing
         devices=$(ls /dev/cu.* 2>/dev/null | grep -i -E 'usb|serial|usbmodem' || true)
     fi
-    
+
     echo "$devices"
 }
 
-# Clear screen for better UX
 clear
 
 echo "• ▌ ▄ ·.▄▄▄ .▄▄ · ▄ .·▄▄▄▄ ▄▄▄ ▄▄▄▄▄▄▄ .▄▄·▄▄▄▄▄"
@@ -53,9 +45,9 @@ echo "▀▀  █▪▀▀▀▀▀▀ ▀▀▀▀▀▀▀ ▀▀▀▀▀• 
 echo ""
 echo "==================================================="
 echo "MeshDetect Firmware Flasher"
+echo "Powered by esptool - Thanks alphafox02!"
 echo "==================================================="
 
-# Clone the esptool repository if it doesn't already exist
 if [ ! -d "$ESPTOOL_DIR" ]; then
     echo "Cloning esptool repository..."
     git clone "$ESPTOOL_REPO"
@@ -63,16 +55,13 @@ else
     echo "Directory '$ESPTOOL_DIR' already exists."
 fi
 
-# Change to the esptool directory
 cd "$ESPTOOL_DIR"
 
-# Display firmware options and prompt user
 echo ""
 echo "==================================================="
 echo "Available firmware options:"
 echo "==================================================="
 
-# Create array for user selection
 declare -a options_array
 for i in "${!FIRMWARE_OPTIONS[@]}"; do
     echo "$((i+1)). ${FIRMWARE_OPTIONS[$i]%%:*}"
@@ -80,15 +69,12 @@ for i in "${!FIRMWARE_OPTIONS[@]}"; do
 done
 echo ""
 
-# Get user input directly instead of using select
 while true; do
     read -p "Select firmware number to flash (1-${#FIRMWARE_OPTIONS[@]}): " choice
-    
-    # Validate input
+
     if [[ "$choice" =~ ^[0-9]+$ ]] && [ "$choice" -ge 1 ] && [ "$choice" -le "${#FIRMWARE_OPTIONS[@]}" ]; then
         firmware_choice="${options_array[$((choice-1))]}"
-        
-        # Find the corresponding URL for the selected firmware
+
         for option in "${FIRMWARE_OPTIONS[@]}"; do
             if [[ "$option" == "$firmware_choice:"* ]]; then
                 FIRMWARE_URL="${option#*:}"
@@ -96,18 +82,17 @@ while true; do
                 break
             fi
         done
-        
+
         echo ""
         echo "Downloading fresh $firmware_choice firmware..."
-        wget "$FIRMWARE_URL" -O "$FIRMWARE_FILE"
-        
+        curl -fLo "$FIRMWARE_FILE" "$FIRMWARE_URL" || { echo "Error downloading firmware. Please check the URL and your connection."; exit 1; }
+
         break
     else
         echo "Invalid selection. Please enter a number between 1 and ${#FIRMWARE_OPTIONS[@]}."
     fi
 done
 
-# Find available USB serial devices
 echo ""
 echo "Searching for USB serial devices..."
 serial_devices=$(find_serial_devices)
@@ -118,22 +103,19 @@ if [ -z "$serial_devices" ]; then
     exit 1
 fi
 
-# Display serial devices
 echo ""
 echo "==================================================="
 echo "Found USB serial devices:"
 echo "==================================================="
-device_array=($serial_devices)
+readarray -t device_array < <(echo "$serial_devices")
 for i in "${!device_array[@]}"; do
     echo "$((i+1)). ${device_array[$i]}"
 done
 echo ""
 
-# Get user selection for device
 while true; do
     read -p "Select USB serial device number (1-${#device_array[@]}): " device_choice
-    
-    # Validate input
+
     if [[ "$device_choice" =~ ^[0-9]+$ ]] && [ "$device_choice" -ge 1 ] && [ "$device_choice" -le "${#device_array[@]}" ]; then
         ESP32_PORT="${device_array[$((device_choice-1))]}"
         echo ""
@@ -144,10 +126,18 @@ while true; do
     fi
 done
 
-# Flash the firmware using esptool.py for the ESP32-C3
 echo ""
 echo "Flashing $firmware_choice firmware to the device..."
-python3 esptool.py \
+PYTHON_CMD=python3
+if ! command -v python3 &> /dev/null; then
+    PYTHON_CMD=python
+    if ! command -v python &> /dev/null; then
+        echo "ERROR: Python (python3 or python) not found. Please install Python."
+        exit 1
+    fi
+fi
+
+"$PYTHON_CMD" esptool.py \
     --chip esp32c3 \
     --port "$ESP32_PORT" \
     --baud "$UPLOAD_SPEED" \
@@ -163,3 +153,7 @@ echo ""
 echo "==================================================="
 echo "Firmware flashing complete!"
 echo "==================================================="
+
+cd ..
+
+echo "Done."
