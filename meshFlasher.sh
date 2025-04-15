@@ -107,7 +107,7 @@ echo ""
 echo "==================================================="
 echo "Found USB serial devices:"
 echo "==================================================="
-readarray -t device_array < <(echo "$serial_devices")
+device_array=($serial_devices)
 for i in "${!device_array[@]}"; do
     echo "$((i+1)). ${device_array[$i]}"
 done
