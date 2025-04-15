@@ -8,99 +8,106 @@ jobs:
   compare_files:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 1 # Only needed if you interact with the local repo
+      # No checkout needed unless interacting with local files
+      # - uses: actions/checkout@v3
+      #   with:
+      #     fetch-depth: 1
 
       - name: Get Main Repo DroneID Last Commit Date
         id: file1_date
         env:
           FILE_URL_1: "https://github.com/colonelpanichacks/wifi-rid-to-mesh/blob/main/remoteid-mesh/firmware.bin"
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Use built-in token
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          REPO_INFO=$(echo "$FILE_URL_1" | sed 's/https:\/\/github.com\/\(.*\)\/blob\/\(.*\)\/\(.*\)/\1 \2 \3/g')
+          # Use -E for extended regex and # as delimiter for clarity
+          REPO_INFO=$(echo "$FILE_URL_1" | sed -E 's#https://github.com/([^/]+/[^/]+)/blob/([^/]+)/(.*)#\1 \2 \3#g')
           if [[ -z "$REPO_INFO" ]]; then
-            echo "::set-output name=file1_status::Invalid URL"
-            echo "::set-output name=file1_date::0"
+            echo "file1_status=Invalid URL" >> $GITHUB_OUTPUT
+            echo "file1_date=0" >> $GITHUB_OUTPUT
             exit 1
           fi
           REPO=$(echo "$REPO_INFO" | awk '{print $1}')
           BRANCH=$(echo "$REPO_INFO" | awk '{print $2}')
           FILE_PATH=$(echo "$REPO_INFO" | awk '{print $3}')
           API_URL="https://api.github.com/repos/$REPO/commits?path=$FILE_PATH&sha=$BRANCH&per_page=1"
-          # Use token for authentication to avoid rate limits
-          RESPONSE=$(curl -s -H "Authorization: token $GH_TOKEN" "$API_URL")
 
-          # Check if the response contains the expected structure
+          # Add -L to follow redirects
+          RESPONSE=$(curl -s -L -H "Authorization: token $GH_TOKEN" -H "Accept: application/vnd.github.v3+json" "$API_URL")
+
+          # Check if the response is a valid JSON array and has elements
           if echo "$RESPONSE" | jq -e '.[0].commit.author.date' > /dev/null; then
             ISO_DATE=$(echo "$RESPONSE" | jq -r '.[0].commit.author.date')
-            # Check if ISO_DATE is valid before converting
             if [ -n "$ISO_DATE" ] && [ "$ISO_DATE" != "null" ]; then
+              # Convert ISO date string to Unix timestamp
               FILE1_COMMIT_DATE=$(date -d "$ISO_DATE" +%s)
-              echo "::set-output name=file1_status::OK"
-              echo "::set-output name=file1_date::$FILE1_COMMIT_DATE"
-              echo "File 1 ($FILE_URL_1) Commit Date: $(date -u -d @$FILE1_COMMIT_DATE)" # Use -u for UTC display
+              echo "file1_status=OK" >> $GITHUB_OUTPUT
+              echo "file1_date=$FILE1_COMMIT_DATE" >> $GITHUB_OUTPUT
+              echo "File 1 ($FILE_URL_1) Commit Date: $(date -u -d @$FILE1_COMMIT_DATE)"
             else
-              echo "::set-output name=file1_status::Not Found"
-              echo "::set-output name=file1_date::0"
+              echo "file1_status=Not Found" >> $GITHUB_OUTPUT
+              echo "file1_date=0" >> $GITHUB_OUTPUT
               echo "File 1 ($FILE_URL_1) date was null or empty in API response."
             fi
           else
-            echo "::set-output name=file1_status::Not Found"
-            echo "::set-output name=file1_date::0"
+            echo "file1_status=Not Found" >> $GITHUB_OUTPUT
+            echo "file1_date=0" >> $GITHUB_OUTPUT
             echo "File 1 ($FILE_URL_1) not found or API error. Response: $RESPONSE"
+            # Optionally exit if this file is critical
+            # exit 1
           fi
 
       - name: Get File 2 Last Commit Date
         id: file2_date
         env:
           FILE_URL_2: "https://github.com/lukeswitz/mesh-detect/blob/main/dist/drone-detect/dji_firmware.bin"
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Use built-in token
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          REPO_INFO=$(echo "$FILE_URL_2" | sed 's/https:\/\/github.com\/\(.*\)\/blob\/\(.*\)\/\(.*\)/\1 \2 \3/g')
+          REPO_INFO=$(echo "$FILE_URL_2" | sed -E 's#https://github.com/([^/]+/[^/]+)/blob/([^/]+)/(.*)#\1 \2 \3#g')
           if [[ -z "$REPO_INFO" ]]; then
-            echo "::set-output name=file2_status::Invalid URL"
-            echo "::set-output name=file2_date::0"
+            echo "file2_status=Invalid URL" >> $GITHUB_OUTPUT
+            echo "file2_date=0" >> $GITHUB_OUTPUT
             exit 1
           fi
           REPO=$(echo "$REPO_INFO" | awk '{print $1}')
           BRANCH=$(echo "$REPO_INFO" | awk '{print $2}')
           FILE_PATH=$(echo "$REPO_INFO" | awk '{print $3}')
           API_URL="https://api.github.com/repos/$REPO/commits?path=$FILE_PATH&sha=$BRANCH&per_page=1"
-          # Use token for authentication to avoid rate limits
-          RESPONSE=$(curl -s -H "Authorization: token $GH_TOKEN" "$API_URL")
 
-          # Check if the response contains the expected structure
+          # Add -L to follow redirects
+          RESPONSE=$(curl -s -L -H "Authorization: token $GH_TOKEN" -H "Accept: application/vnd.github.v3+json" "$API_URL")
+
           if echo "$RESPONSE" | jq -e '.[0].commit.author.date' > /dev/null; then
             ISO_DATE=$(echo "$RESPONSE" | jq -r '.[0].commit.author.date')
-             # Check if ISO_DATE is valid before converting
             if [ -n "$ISO_DATE" ] && [ "$ISO_DATE" != "null" ]; then
+              # Convert ISO date string to Unix timestamp
               FILE2_COMMIT_DATE=$(date -d "$ISO_DATE" +%s)
-              echo "::set-output name=file2_status::OK"
-              echo "::set-output name=file2_date::$FILE2_COMMIT_DATE"
-              echo "File 2 ($FILE_URL_2) Commit Date: $(date -u -d @$FILE2_COMMIT_DATE)" # Use -u for UTC display
+              echo "file2_status=OK" >> $GITHUB_OUTPUT
+              echo "file2_date=$FILE2_COMMIT_DATE" >> $GITHUB_OUTPUT
+              echo "File 2 ($FILE_URL_2) Commit Date: $(date -u -d @$FILE2_COMMIT_DATE)"
             else
-              echo "::set-output name=file2_status::Not Found"
-              echo "::set-output name=file2_date::0"
+              echo "file2_status=Not Found" >> $GITHUB_OUTPUT
+              echo "file2_date=0" >> $GITHUB_OUTPUT
               echo "File 2 ($FILE_URL_2) date was null or empty in API response."
             fi
           else
-            echo "::set-output name=file2_status::Not Found"
-            echo "::set-output name=file2_date::0"
+            echo "file2_status=Not Found" >> $GITHUB_OUTPUT
+            echo "file2_date=0" >> $GITHUB_OUTPUT
             echo "File 2 ($FILE_URL_2) not found or API error. Response: $RESPONSE"
+            # Optionally exit if this file is critical
+            # exit 1
           fi
 
       - name: Compare Dates and Set Status
         id: compare_dates
         run: |
+          # Note: Accessing outputs still uses the same syntax
           FILE1_STATUS="${{ steps.file1_date.outputs.file1_status }}"
           FILE2_STATUS="${{ steps.file2_date.outputs.file2_status }}"
           FILE1_DATE="${{ steps.file1_date.outputs.file1_date }}"
           FILE2_DATE="${{ steps.file2_date.outputs.file2_date }}"
 
-          # Default to gray in case of errors
-          STATUS="Error"
-          COLOR="gray"
+          STATUS="Error" # Default status
+          COLOR="gray"   # Default color
 
           # Check for errors first
           if [[ "$FILE1_STATUS" != "OK" && "$FILE2_STATUS" != "OK" ]]; then
@@ -111,6 +118,7 @@ jobs:
             STATUS="File 2 Not Found"
           else
             # Both files found, proceed with comparison
+            # Ensure dates are treated as integers
             if [ "$FILE1_DATE" -gt "$FILE2_DATE" ]; then
               STATUS="File 1 Newer"
               COLOR="green"
@@ -123,12 +131,16 @@ jobs:
             fi
           fi
 
-          echo "::set-output name=status::$STATUS"
-          echo "::set-output name=color::$COLOR"
+          # Use new syntax to set outputs for this step
+          echo "status=$STATUS" >> $GITHUB_OUTPUT
+          echo "color=$COLOR" >> $GITHUB_OUTPUT
+
           echo "Comparison Status: $STATUS"
           echo "Color: $COLOR"
 
       - name: Output Status and Color
         run: |
+          # Accessing outputs from the previous step remains the same
           echo "Status: ${{ steps.compare_dates.outputs.status }}"
           echo "Color: ${{ steps.compare_dates.outputs.color }}"
+
