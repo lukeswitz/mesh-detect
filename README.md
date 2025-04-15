@@ -43,10 +43,13 @@ Mesh Detect board can be found on my Tindie Store:
 - Detects and alerts on **new** devices.
 - Flash via `meshFlasher.sh`
 
-### 3. 🛸 Drone Remote ID to Meshtastic
+### 3. 🛸 Drone Remote ID to Meshtastic - BT and WiFi
 *With Mesh-Mapper API 📡*
-- [Drone Remote id to Meshtastic](https://github.com/colonelpanichacks/wifi-rid-to-mesh)
-- Detects **WiFi RID drone signals**.  
+
+- [WiFi Drone Remote id to Meshtastic](https://github.com/colonelpanichacks/wifi-rid-to-mesh)
+
+- **Drone RID [BT Version](https://github.com/colonelpanichacks/BLE-RemoteID-to-mesh/tree/main)**
+  
 - Sends drone detection messages with **ID, RSSI, MAC, Operator ID, Location**, and more.
 - Flash via `meshFlasher.sh`
 
