@@ -4,11 +4,13 @@ set -e
 # Variables
 ESPTOOL_REPO="https://github.com/alphafox02/esptool"
 FIRMWARE_OPTIONS=(
-    "WiFi Drone RID:https://github.com/colonelpanichacks/WiFi-RemoteID-to-mesh/raw/refs/heads/main/firmware.bin"
-    "ESP32S3 BLE Drone RID:https://github.com/lukeswitz/mesh-detect/raw/refs/heads/main/dist/drone-detect/dji_ble_firmware_s3.bin"
-    "ESP32C6 BLE Drone RID:https://github.com/colonelpanichacks/BLE-RemoteID-to-mesh/raw/refs/heads/main/firmware.bin"
-    "Camera Detector:https://github.com/lukeswitz/mesh-detect/raw/refs/heads/main/dist/oui-detection/meshdetect_privacy.bin"
-    "Deepwoods Device Baseline Alert:https://github.com/lukeswitz/mesh-detect/raw/refs/heads/main/dist/deepwoods/esp32c3_device_fingerprint.bin"
+    
+    "ESP32C3 - Camera Detector:https://github.com/lukeswitz/mesh-detect/raw/refs/heads/main/dist/oui-detection/meshdetect_privacy.bin"
+    "ESP32C3 - Deepwoods Device Baseline Alert:https://github.com/lukeswitz/mesh-detect/raw/refs/heads/main/dist/deepwoods/esp32c3_device_fingerprint.bin"
+    "ESP32C3 - WiFi Drone RID:https://github.com/colonelpanichacks/WiFi-RemoteID-to-mesh/raw/refs/heads/main/firmware.bin"
+    "ESP32S3 - WiFi & BT Drone RID:https://github.com/lukeswitz/BLE-RemoteID-to-mesh/raw/refs/heads/dualcore/dual_firmware_s3.bin"
+    "ESP32S3 - BT Drone RID:https://github.com/lukeswitz/mesh-detect/raw/refs/heads/main/dist/drone-detect/dji_ble_firmware_s3.bin"
+    "ESP32C6 - BT Drone RID:https://github.com/colonelpanichacks/BLE-RemoteID-to-mesh/raw/refs/heads/main/firmware.bin"
 )
 ESPTOOL_DIR="esptool"
 
