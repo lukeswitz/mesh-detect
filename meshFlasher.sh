@@ -5,7 +5,7 @@ set -e
 ESPTOOL_REPO="https://github.com/alphafox02/esptool"
 FIRMWARE_OPTIONS=(
     "WiFi Drone Detection:https://github.com/colonelpanichacks/WiFi-RemoteID-to-mesh/raw/refs/heads/main/firmware.bin"
-    "BLE Remote Drone ID (:https://github.com/colonelpanichacks/BLE-RemoteID-to-mesh/raw/refs/heads/main/firmware.bin"
+    "BLE Remote Drone ID:https://github.com/colonelpanichacks/BLE-RemoteID-to-mesh/raw/refs/heads/main/firmware.bin"
     "Camera Detect:https://github.com/lukeswitz/mesh-detect/raw/refs/heads/main/dist/oui-detection/meshdetect_privacy.bin"
     "Deepwoods Device Detection:https://github.com/lukeswitz/mesh-detect/raw/refs/heads/main/dist/deepwoods/esp32c3_device_fingerprint.bin"
 )
