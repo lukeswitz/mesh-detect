@@ -52,14 +52,16 @@ echo "MeshDetect Firmware Flasher"
 echo "Powered by esptool - Thanks @alphafox02!"
 echo "==================================================="
 
-if [ ! -d "$ESPTOOL_DIR" ]; then
-    echo "Cloning esptool repository..."
-    git clone "$ESPTOOL_REPO"
+# Check for esptool.py system-wide or clone if missing
+if command -v esptool.py &>/dev/null; then
+    ESPTOOL_CMD="esptool.py"
 else
-    echo "Directory '$ESPTOOL_DIR' already exists."
+    if [ ! -f "$ESPTOOL_DIR/esptool.py" ]; then
+        echo "Cloning esptool repository..."
+        git clone "$ESPTOOL_REPO" "$ESPTOOL_DIR"
+    fi
+    ESPTOOL_CMD="$PYTHON_CMD $ESPTOOL_DIR/esptool.py"
 fi
-
-cd "$ESPTOOL_DIR"
 
 echo ""
 echo "==================================================="
@@ -141,7 +143,7 @@ if ! command -v python3 &> /dev/null; then
     fi
 fi
 
-"$PYTHON_CMD" esptool.py \
+$ESPTOOL_CMD \
     --chip auto \
     --port "$ESP32_PORT" \
     --baud "$UPLOAD_SPEED" \
