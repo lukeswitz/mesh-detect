@@ -8,8 +8,6 @@ FIRMWARE_OPTIONS=(
     "C3 - Deepwoods Device Baseline Alert:https://github.com/lukeswitz/mesh-detect/raw/refs/heads/main/dist/deepwoods/esp32c3_device_fingerprint.bin"
     "C3 - WiFi Drone RID:https://github.com/colonelpanichacks/WiFi-RemoteID-to-mesh/raw/refs/heads/main/firmware.bin"
     "C3 - WiFi Drone RID Node Mode:https://github.com/colonelpanichacks/WiFi-RemoteID-to-mesh/raw/refs/heads/main/node-mode/firmware.bin"
-    "C3 - BT Drone RID:https://github.com/lukeswitz/BLE-RemoteID-to-mesh/raw/refs/heads/main/remoteid-mesh/firmware.bin"
-    "C3 - BT Drone RID Node Mode:https://github.com/lukeswitz/BLE-RemoteID-to-mesh/raw/refs/heads/main/node-mode/firmware.bin"
     "S3 - WiFi & BT Drone RID:https://github.com/lukeswitz/BLE-RemoteID-to-mesh/raw/refs/heads/dualcore/dual_firmware_s3.bin"
     "S3 - WiFi & BT Drone RID Node Mode:https://github.com/lukeswitz/WiFi-RemoteID-to-mesh/raw/refs/heads/main/node-mode%20dualcore/firmware.bin"
     "C6 - BT Drone RID:https://github.com/colonelpanichacks/BLE-RemoteID-to-mesh/raw/refs/heads/main/firmware.bin"
