@@ -49,8 +49,8 @@ echo "██ ██▌▐█▐█▄▄▐█▄▪▐██▌▐██. █�
 echo "▀▀  █▪▀▀▀▀▀▀ ▀▀▀▀▀▀▀ ▀▀▀▀▀• ▀▀▀ ▀▀▀ ▀▀▀·▀▀▀ ▀▀▀"
 echo ""
 echo "==================================================="
-echo "MeshDetect Firmware Flasher"
-echo "Powered by esptool - Thanks @alphafox02!"
+echo "MeshDetect Auto Firmware Flasher"
+echo "Powered by existing code - Thanks @alphafox02!"
 echo "==================================================="
 
 # Check for esptool.py system-wide or clone if missing
