@@ -9,7 +9,7 @@ FIRMWARE_OPTIONS=(
     "C3 - WiFi Drone RID:https://github.com/colonelpanichacks/WiFi-RemoteID-to-mesh/raw/refs/heads/main/firmware.bin"
     "C3 - WiFi Drone RID Node Mode:https://github.com/colonelpanichacks/WiFi-RemoteID-to-mesh/raw/refs/heads/main/node-mode/firmware.bin"
     "S3 - WiFi & BT Drone RID:https://github.com/lukeswitz/BLE-RemoteID-to-mesh/raw/refs/heads/dualcore/dual_firmware_s3.bin"
-    "S3 - WiFi & BT Drone RID Node Mode:https://github.com/lukeswitz/WiFi-RemoteID-to-mesh/raw/refs/heads/main/node-mode%20dualcore/firmware.bin"
+    "S3 - WiFi & BT Drone RID Node Mode:https://github.com/lukeswitz/WiFi-RemoteID-to-mesh/raw/refs/heads/main/node-mode-dualcore/firmware.bin"
     "C6 - BT Drone RID:https://github.com/colonelpanichacks/BLE-RemoteID-to-mesh/raw/refs/heads/main/firmware.bin"
 )
 ESPTOOL_DIR="esptool"
