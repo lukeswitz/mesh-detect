@@ -10,6 +10,40 @@ Easily flash different firmware onto the **Colonel Panic Mesh Detect.** An autom
 
 `Validation: shasum meshFlasher.sh d8d9686e430d3c4f3e0e2a94363194933d72e3b1`
 
+## Flashing Firmware
+
+> [!NOTE]
+> - Latest Esptool is automatically downloaded to script directory if not on the sytem
+> - Firmware binaries are replaced to ensure they're up-to-date.
+
+
+1. Setup Requirements & Flasher
+```bash
+# Install required packages
+sudo apt-get update
+sudo apt-get install -y git python3 python3-pip wget
+
+# Install Python dependencies
+pip3 install esptool pyserial
+
+# Download flasher sctipt
+wget https://raw.githubusercontent.com/lukeswitz/mesh-detect/refs/heads/main/meshFlasher.sh
+
+# Make executable
+chmod +x meshFlasher.sh
+
+```
+
+2. Plug in your esp32 & run the script
+```
+./meshFlasher.sh
+```
+
+3. Follow the on-screen prompts. That’s it! The script will get your board flashed and running. 
+
+> [!IMPORTANT]
+> Power cycle the board after flashing to ensure no issues with the Heltec. 
+
 ## Firmware Options  
 
 ### 🎥 1. OUI Sniffer  
@@ -39,44 +73,10 @@ Easily flash different firmware onto the **Colonel Panic Mesh Detect.** An autom
 - Sends drone detection messages with **ID, RSSI, MAC, Operator ID, Location**, and more.
 - Flash via `meshFlasher.sh`
 
-## Flashing Firmware
 
-### Dependencies & Setup
+## Project Helpers
 
-Note: Latest Esptool is automatically downloaded to script directory, and firmware binaries are replaced to ensure they're up-to-date.
-
-```bash
-# Install required packages
-sudo apt-get update
-sudo apt-get install -y git python3 python3-pip wget
-
-# Install Python dependencies
-pip3 install esptool pyserial
-```
-
-### Flashing 
-
-1. Download the script
-```bash
-wget https://raw.githubusercontent.com/lukeswitz/mesh-detect/refs/heads/main/meshFlasher.sh
-```
-
-2. Make executable
-```
-chmod +x meshFlasher.sh
-```
-
-3. Plug in your esp32 & run the script
-```
-./meshFlasher.sh
-```
-
-4. Follow the on-screen prompts. That’s it! The script will get your board flashed and running. 
-
-> [!IMPORTANT]
-> Power cycle the board after flashing to ensure no issues with the Heltec. 
-
-## Configure Mesh Node
+### Configuring Attached Mesh Node
 
 - Official Docs https://meshtastic.org/docs/configuration/module/serial/
 
