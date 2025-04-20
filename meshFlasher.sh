@@ -6,11 +6,10 @@ ESPTOOL_REPO="https://github.com/alphafox02/esptool"
 FIRMWARE_OPTIONS=(
     "C3 - Camera Detector:https://github.com/lukeswitz/mesh-detect/raw/refs/heads/main/dist/oui-detection/meshdetect_privacy.bin"
     "C3 - Deepwoods Device Baseline Alert:https://github.com/lukeswitz/mesh-detect/raw/refs/heads/main/dist/deepwoods/esp32c3_device_fingerprint.bin"
-    "C3 - WiFi Drone RID:https://github.com/colonelpanichacks/WiFi-RemoteID-to-mesh/raw/refs/heads/main/firmware.bin"
-    "C3 - WiFi Drone RID Node Mode:https://github.com/colonelpanichacks/WiFi-RemoteID-to-mesh/raw/refs/heads/main/node-mode/firmware.bin"
-    "S3 - WiFi & BT Drone RID:https://github.com/lukeswitz/BLE-RemoteID-to-mesh/raw/refs/heads/dualcore/dual_firmware_s3.bin"
-    "S3 - WiFi & BT Drone RID Node Mode:https://github.com/lukeswitz/WiFi-RemoteID-to-mesh/raw/refs/heads/main/node-mode-dualcore/firmware.bin"
-    "C6 - BT Drone RID:https://github.com/colonelpanichacks/BLE-RemoteID-to-mesh/raw/refs/heads/main/firmware.bin"
+    "C3 - WiFi Drone RID:https://github.com/lukeswitz/WiFi-RemoteID-to-mesh/raw/refs/heads/main/firmware/esp32c3-wifi-rid.bin"
+    "C3 - WiFi Drone RID Node Mode:https://github.com/lukeswitz/WiFi-RemoteID-to-mesh/raw/refs/heads/main/firmware/esp32c3-wifi-rid-node-mode.bin"
+    "S3 - WiFi & BT Drone RID:https://github.com/lukeswitz/WiFi-RemoteID-to-mesh/raw/refs/heads/main/firmware/esp32s3-dual-rid.bin"
+    "S3 - WiFi & BT Drone RID Node Mode:https://github.com/lukeswitz/WiFi-RemoteID-to-mesh/raw/refs/heads/main/firmware/esp32s3-dual-rid-node-mode.bin"
 )
 ESPTOOL_DIR="esptool"
 
