@@ -1,7 +1,7 @@
 # Mesh Detect Flasher  
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/lukeswitz/T-Halow/refs/heads/master/firmware/ColonelPanicWiFiRID/img/art_purps.svg" alt="T-Halow WiFi RID Image" width="70%" />
+  <img src="https://raw.githubusercontent.com/lukeswitz/WiFi-RemoteID-to-mesh/refs/heads/main/eyepurple.svg" alt="T-Halow WiFi RID Image" width="70%" />
 </p>
 
 ## About  
@@ -9,9 +9,6 @@
 Easily flash different firmware onto the **Colonel Panic Mesh Detect.** An automatic `esptool.py` flasher, no Arduino IDE required.
 
 `Validation: shasum meshFlasher.sh d8d9686e430d3c4f3e0e2a94363194933d72e3b1`
-
-![3CFC9C39-2E01-44BC-B57C-AACCC4AF4078](https://github.com/user-attachments/assets/f4c7080a-046d-4b53-9953-03e6d3a15ff7)
-
 
 ## Firmware Options  
 
