@@ -4,12 +4,13 @@ set -e
 # Variables
 ESPTOOL_REPO="https://github.com/alphafox02/esptool"
 FIRMWARE_OPTIONS=(
-    "C3 - Camera Detector:https://github.com/lukeswitz/mesh-detect/raw/refs/heads/main/dist/oui-detection/meshdetect_privacy.bin"
+    "C3 - Camera Detector:https://github.com/lukeswitz/esp32-oui-sniffer/raw/refs/heads/main/build/meshdetect_privacy.bin"
     "C3 - Deepwoods Baseline Alert:https://github.com/colonelpanichacks/deepwoods_device_detection/raw/refs/heads/Xiao-esp-32-S3/esp32-c3%20version/esp32c3_device_fingerprint.bin"
     "C3 - WiFi Drone RID:https://github.com/lukeswitz/WiFi-RemoteID/raw/refs/heads/main/firmware/esp32c3-wifi-rid.bin"
+    "S3 - Camera Detector:https://github.com/lukeswitz/esp32-oui-sniffer/raw/refs/heads/main/build/meshdetect_privacy_s3.bin"
     "S3 - Deepwoods Baseline Alert:https://github.com/lukeswitz/mesh-detect/raw/refs/heads/main/dist/deepwoods/esp32s3_device_fingerprint.bin"
     "S3 - WiFi & BT Drone RID:https://github.com/lukeswitz/WiFi-RemoteID/raw/refs/heads/main/firmware/esp32s3-dual-rid.bin"
-    "S3 - WiFi & BT Drone RID Node Mode:https://github.com/lukeswitz/WiFi-RemoteID/raw/refs/heads/main/firmware/esp32s3-dual-rid-node-mode.bin"
+    "S3 - WiFi & BT Drone RID - Node Mode:https://github.com/lukeswitz/WiFi-RemoteID/raw/refs/heads/main/firmware/esp32s3-dual-rid-node-mode.bin"
 )
 ESPTOOL_DIR="esptool"
 
