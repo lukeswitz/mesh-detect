@@ -1,14 +1,18 @@
 # Mesh Detect Flasher  
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/lukeswitz/WiFi-RemoteID-to-mesh/refs/heads/main/eyepurple.svg" alt="T-Halow WiFi RID Image" width="70%" />
+  <img src="https://raw.githubusercontent.com/lukeswitz/WiFi-RemoteID/refs/heads/main/eyepurple.svg" alt="T-Halow WiFi RID Image" width="70%" />
 </p>
 
 ## About  
 
-Easily flash different firmware onto the **Colonel Panic Mesh Detect.** An automatic `esptool.py` flasher, no Arduino IDE required.
+- Easily flash different firmware onto the **Colonel Panic Mesh Detect Board.**
+- An automatic `esptool.py` flasher, no Arduino IDE required.
+- Options for both S3 and C3 Xiao ESP32 variants
 
-`Validation: shasum meshFlasher.sh d8d9686e430d3c4f3e0e2a94363194933d72e3b1`
+---
+           
+✅ shasum: `d8d9686e430d3c4f3e0e2a94363194933d72e3b1`
 
 ## Flashing Firmware
 
