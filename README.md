@@ -7,7 +7,7 @@
 ## About  
 - Easily flash different firmware onto the **Colonel Panic Mesh Detect Board.**
 - An automatic `esptool.py` flasher, no IDE required.
-- Options for both S3 and C3 Xiao ESP32 variants
+- Options for S3, C6 and C3 Xiao ESP32 variants
 
 ---
            
