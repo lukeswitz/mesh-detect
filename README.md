@@ -1,49 +1,92 @@
-# Mesh Detect Flasher  
+# `MD Flasher`  
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/lukeswitz/WiFi-RemoteID/refs/heads/main/eyepurple.svg" alt="T-Halow WiFi RID Image" width="70%" />
 </p>
 
 ## About  
-
 - Easily flash different firmware onto the **Colonel Panic Mesh Detect Board.**
-- An automatic `esptool.py` flasher, no Arduino IDE required.
+- An automatic `esptool.py` flasher, no IDE required.
 - Options for both S3 and C3 Xiao ESP32 variants
 
 ---
            
 ✅ shasum: `d8d9686e430d3c4f3e0e2a94363194933d72e3b1`
 
-## Flashing Firmware
+# Flashing Firmware
 
 > [!NOTE]
 > - Latest Esptool is automatically downloaded to script directory if not on the sytem
 > - Firmware binaries are replaced to ensure they're up-to-date.
 
+## A. Linux & macOS
 
-1. Setup Requirements & Flasher
+1. Download & Execute
 ```bash
-# Install required packages
+# Install required packages (if needed)
 sudo apt-get update
 sudo apt-get install -y git python3 python3-pip wget
-
-# Install Python dependencies
 pip3 install esptool pyserial
 
-# Download flasher sctipt
+# Download & run flasher
 wget https://raw.githubusercontent.com/lukeswitz/mesh-detect/refs/heads/main/meshFlasher.sh
 
-# Make executable
+# Make executable & run
 chmod +x meshFlasher.sh
-
-```
-
-2. Plug in your esp32 & run the script
-```
 ./meshFlasher.sh
 ```
 
-3. Follow the on-screen prompts. That’s it! The script will get your board flashed and running. 
+2. Plug in your **ESP32** via USB. Follow the on-screen prompts. Be sure to plug into the Xiao esp32 and not the Heltec USB.
+
+## B. Windows (Powershell)
+
+```powershell
+# Ensure winget is available
+if (-Not (Get-Command winget)) {
+    Write-Warning "winget is not available. Please install it first."
+    exit 1
+}
+```
+
+```powershell
+# Install required packages
+winget install Gnu.Git
+winget install Python.Python
+winget install Python.Pip
+```
+
+```powershell
+# Update pip and install Python modules
+python -m pip install --upgrade pip
+python -m pip install esptool pyserial
+```
+
+```powershell
+# Download the script and verify its contents
+$scriptUrl = "https://raw.githubusercontent.com/lukeswitz/mesh-detect/refs/heads/main/meshFlasher.sh"
+$scriptPath = "meshFlasher.sh"
+
+# Download the script
+Invoke-WebRequest -Uri $scriptUrl -OutFile $scriptPath
+
+# Optional: Verify the script contents before running it
+# You can open the file in a text editor to inspect it
+notepad $scriptPath
+```
+
+```powershell
+# Run the script only if you trust it
+Read-Host "Press Enter to run the script (Ctrl+C to cancel)"
+
+# Set execution policy only for the current user and only if necessary
+if ((Get-ExecutionPolicy -Scope CurrentUser) -ne "RemoteSigned") {
+    Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned -Force
+}
+```
+
+2. Run the script
+`.\meshFlasher.sh`
+
 
 > [!IMPORTANT]
 > Power cycle the board after flashing to ensure no issues with the Heltec. 
@@ -70,11 +113,10 @@ chmod +x meshFlasher.sh
 ### 3. 🛸 Drone Remote ID to Meshtastic - BT and WiFi
 *With Mesh-Mapper API 📡*
 
-- [WiFi Drone Remote id to Meshtastic](https://github.com/colonelpanichacks/wifi-rid-to-mesh)
-- [BT Drone Remote id to Meshtastic](https://github.com/colonelpanichacks/BLE-RemoteID-to-mesh/tree/main)
-- [WiFi & BT 4/5 Drone Remote id to Meshtastic (esp32s3)](https://github.com/lukeswitz/BLE-RemoteID-to-mesh/tree/dualcore)
+- [WiFi/BT Drone Remote id to Meshtastic](https://github.com/colonelpanichacks/WiFi-RemoteID)
   
 - Sends drone detection messages with **ID, RSSI, MAC, Operator ID, Location**, and more.
+- WebUI plots drones, pilots, looks up FAA IDs and more. Increase range using node-mode firmware on multiple devices. TAK, Serial and ZMQ support. 
 - Flash via `meshFlasher.sh`
 
 
