@@ -9,7 +9,7 @@ FIRMWARE_OPTIONS=(
     "S3 - WiFi & BT Drone RID:https://github.com/lukeswitz/WiFi-RemoteID/raw/refs/heads/main/firmware/esp32s3-dual-rid.bin"
     "S3 - WiFi & BT Drone RID - Node Mode:https://github.com/lukeswitz/WiFi-RemoteID/raw/refs/heads/main/firmware/esp32s3-dual-rid-node-mode.bin"
     "C3 - BT Camera Detector:https://github.com/lukeswitz/esp32-oui-sniffer/raw/refs/heads/main/build/meshdetect_privacy.bin"
-    "C3 - Deepwoods Baseline Alert:https://github.com/colonelpanichacks/deepwoods_device_detection/raw/refs/heads/Xiao-esp-32-S3/esp32-c3%20version/esp32c3_device_fingerprint.bin"
+    "C3 - Deepwoods Baseline Alert:https://github.com/colonelpanichacks/deepwoods_device_detection/blob/Xiao-esp-32-S3/esp32-c3%20version/esp32c3_device_fingerprint.bin"
     "C3 - WiFi Drone RID:https://github.com/lukeswitz/WiFi-RemoteID/raw/refs/heads/main/firmware/esp32c3-wifi-rid.bin"
     "C6 - WiFi Drone RID:https://github.com/lukeswitz/mesh-detect/raw/refs/heads/main/dist/drone-detect/dji_wifi_firmware_c6.bin"
     "C6 - BT Drone RID:https://github.com/lukeswitz/mesh-detect/raw/refs/heads/main/dist/drone-detect/dji_ble_firmware_c6.bin"
