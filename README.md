@@ -19,77 +19,42 @@
 > - Latest Esptool is automatically downloaded to script directory if not on the sytem
 > - Firmware binaries are replaced to ensure they're up-to-date.
 
-## A. Linux & macOS
+## A. Linux (Ubuntu/Debian)
 
 1. Download & Execute
 ```bash
-# Install required packages (if needed)
-sudo apt-get update
-sudo apt-get install -y git python3 python3-pip wget
+sudo apt-get update && sudo apt-get install -y git python3 python3-pip wget
 pip3 install esptool pyserial
-
-# Download & run flasher
 wget https://raw.githubusercontent.com/lukeswitz/mesh-detect/refs/heads/main/meshFlasher.sh
+chmod +x meshFlasher.sh && ./meshFlasher.sh
+```
 
-# Make executable & run
-chmod +x meshFlasher.sh
-./meshFlasher.sh
+## B. macOS
+```bash
+# Install Homebrew (if needed)
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# Install dependencies and run
+brew install python3 wget
+pip3 install esptool pyserial
+wget https://raw.githubusercontent.com/lukeswitz/mesh-detect/refs/heads/main/meshFlasher.sh
+chmod +x meshFlasher.sh && ./meshFlasher.sh
+```
+
+## C. Windows (WSL)
+
+```powershell
+# First install WSL from Microsoft Store or run: wsl --install
+# Then open WSL terminal and run:
+sudo apt update && sudo apt install -y git python3 python3-pip wget
+pip3 install esptool pyserial
+wget https://raw.githubusercontent.com/lukeswitz/mesh-detect/refs/heads/main/meshFlasher.sh
+chmod +x meshFlasher.sh && ./meshFlasher.sh
 ```
 
 2. Plug in your **ESP32** via USB. Follow the on-screen prompts. Be sure to plug into the Xiao esp32 and not the Heltec USB.
 
-## B. Windows (Powershell)
-
-```powershell
-# Ensure winget is available
-if (-Not (Get-Command winget)) {
-    Write-Warning "winget is not available. Please install it first."
-    exit 1
-}
-```
-
-```powershell
-# Install required packages
-winget install Gnu.Git
-winget install Python.Python
-winget install Python.Pip
-```
-
-```powershell
-# Update pip and install Python modules
-python -m pip install --upgrade pip
-python -m pip install esptool pyserial
-```
-
-```powershell
-# Download the script and verify its contents
-$scriptUrl = "https://raw.githubusercontent.com/lukeswitz/mesh-detect/refs/heads/main/meshFlasher.sh"
-$scriptPath = "meshFlasher.sh"
-
-# Download the script
-Invoke-WebRequest -Uri $scriptUrl -OutFile $scriptPath
-
-# Optional: Verify the script contents before running it
-# You can open the file in a text editor to inspect it
-notepad $scriptPath
-```
-
-```powershell
-# Run the script only if you trust it
-Read-Host "Press Enter to run the script (Ctrl+C to cancel)"
-
-# Set execution policy only for the current user and only if necessary
-if ((Get-ExecutionPolicy -Scope CurrentUser) -ne "RemoteSigned") {
-    Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned -Force
-}
-```
-
-2. Run the script
-`.\meshFlasher.sh`
-
-
-> [!IMPORTANT]
-> Power cycle the board after flashing to ensure no issues with the Heltec. 
+3. Done!
 
 ## Firmware Options  
 
